@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<TabPane tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+    <Tab text="Basic Scanner">
+        <Pane prefHeight="400.0" prefWidth="525.0">
+            <Button layoutX="294.0" layoutY="14.0" mnemonicParsing="false" onAction="#show_port_info" prefHeight="9.0" prefWidth="10.0" text="i" />
+            <ChoiceBox fx:id="port_field" layoutX="361.0" layoutY="14.0" prefWidth="150.0" />
+            <Text layoutX="263.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port" />
+            <Text layoutX="263.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set Community" />
+            <ChoiceBox fx:id="snmp_community_field" layoutX="361.0" layoutY="47.0" prefWidth="150.0" />
+            <Text layoutX="13.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Host" />
+            <TextField fx:id="ip_address_field" layoutX="77.0" layoutY="14.0" />
+            <Text layoutX="13.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Object ID" />
+            <TextField fx:id="OID_field" layoutX="77.0" layoutY="47.0" />
+            <Separator layoutX="-5.0" layoutY="116.0" prefHeight="9.0" prefWidth="530.0" />
+            <Group layoutX="14.0" layoutY="143.0">
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Event Log" />
+                <Text layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SNMP-Responses" />
+                <TextArea fx:id="result_text_area" editable="false" layoutX="9.0" layoutY="120.0" prefHeight="118.0" prefWidth="481.0" />
+                <TextArea fx:id="event_log_text_area" editable="false" layoutX="9.0" layoutY="15.0" prefHeight="56.0" prefWidth="481.0" />
+            </Group>
+            <ButtonBar layoutX="80.0" layoutY="72.0" prefHeight="40.0" prefWidth="292.0">
+                <buttons>
+                    <Button fx:id="scan_button" mnemonicParsing="false" onAction="#scanIP" prefWidth="113.0" text="Scan using OID" />
+                    <Button mnemonicParsing="false" onAction="#print_six_OID" text="Print 6 OIDs" />
+                </buttons>
+            </ButtonBar>
+        </Pane>
+    </Tab>
+    <!-- <Tab text="Scan 6 OIDs from IP">
+        <Pane>
+            <Text layoutX="13.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Host" />
+            <TextField fx:id="ip_address_field_2" layoutX="77.0" layoutY="14.0" />
+            <Group layoutX="14.0" layoutY="143.0">
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Event Log" />
+                <Text layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SNMP-Infos" />
+                <TextArea fx:id="result_text_area_2" layoutX="9.0" layoutY="153.0" prefHeight="81.0" prefWidth="481.0" />
+                <TextArea fx:id="event_log_text_area_2" layoutX="9.0" layoutY="24.0" prefHeight="81.0" prefWidth="481.0" />
+            </Group>
+         <Text layoutX="263.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port" />
+         <Button layoutX="294.0" layoutY="14.0" mnemonicParsing="false" onAction="#show_port_info" prefHeight="9.0" prefWidth="10.0" text="i" />
+         <ChoiceBox layoutX="361.0" layoutY="14.0" prefWidth="150.0" />
+        </Pane>
+    </Tab>-->
+    <Tab text="Scan IP by MIB" />
+    <Tab text="Scan whole Network" />
+</TabPane>
