@@ -4,8 +4,9 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import org.soulwing.snmp.*;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
-public class Controller {
+public class Controller extends Thread{
 
     public ChoiceBox<String> port_field;
     public ChoiceBox<String> snmp_community_field;
@@ -22,6 +23,9 @@ public class Controller {
     public TextArea result_text_area_whole;
 
     private Mib mib;
+    private String[] IP_address_arr;
+    private int mask;
+
 
     /*TODO: benutzer kann nicht in textareas schreiben,
             read by mib
@@ -128,8 +132,7 @@ public class Controller {
     }
 
     public void scan_whole_network(ActionEvent actionEvent) {
-        int mask = Integer.parseInt(mask_textfield_whole.getText());
-        String IP_new;
+        mask = Integer.parseInt(mask_textfield_whole.getText());
 
         mib = load_MIB();
 
@@ -145,13 +148,20 @@ public class Controller {
                 e.printStackTrace();
             }
         }else if(mask == 24){
-            String[] IP_address_arr = network_textfield_whole.getText().split("\\.");
+            IP_address_arr = network_textfield_whole.getText().split("\\.");
             System.out.println(network_textfield_whole.getText());
             System.out.println(IP_address_arr.length);
 
-            for (int i = 0; i < 255; i++){
+            this.start();
+        }
+    }
+
+    @Override
+    public void run() {
+        if(mask == 24){
+            for (int i = 1; i < 230; i++){
                 SimpleSnmpV2cTarget target = new SimpleSnmpV2cTarget();
-                IP_new = IP_address_arr[0] + "." + IP_address_arr[1] + "." + IP_address_arr[2] + "." + i;
+                String IP_new = IP_address_arr[0] + "." + IP_address_arr[1] + "." + IP_address_arr[2] + "." + i;
                 System.out.println(IP_new);
                 target.setAddress(IP_new);
 
@@ -161,11 +171,11 @@ public class Controller {
                 try (SnmpContext context = SnmpFactory.getInstance().newContext(target, mib)) {
                     String result_String = get_OID_response(".1.3.6.1.2.1.1.5.0", "Name: ",  context);   //name
                     result_text_area_whole.appendText(IP_new + ": " + result_String);
+                    TimeUnit.MILLISECONDS.sleep(500);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
-
     }
 }
