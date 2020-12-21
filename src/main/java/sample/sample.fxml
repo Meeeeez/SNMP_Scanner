@@ -22,7 +22,7 @@
             <ChoiceBox fx:id="snmp_community_field" layoutX="361.0" layoutY="47.0" prefWidth="150.0" />
             <Text layoutX="13.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Host" />
             <TextField fx:id="ip_address_field" layoutX="77.0" layoutY="14.0" />
-            <Text layoutX="13.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Object ID" />
+            <Text layoutX="13.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OID/MIB" />
             <TextField fx:id="OID_field" layoutX="77.0" layoutY="47.0" />
             <Separator layoutX="-5.0" layoutY="116.0" prefHeight="9.0" prefWidth="530.0" />
             <Group layoutX="14.0" layoutY="143.0">

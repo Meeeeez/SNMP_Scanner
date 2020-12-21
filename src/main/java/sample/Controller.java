@@ -47,7 +47,7 @@ public class Controller extends Thread{
 
 
         ip_address_field.setPromptText("Enter an IP-address");
-        OID_field.setPromptText("Enter OID if using 'Scan'");
+        OID_field.setPromptText("Enter OID/MIB");
         port_field.getItems().addAll("161", "162");
         snmp_community_field.getItems().addAll("public", "private");
 
@@ -62,10 +62,11 @@ public class Controller extends Thread{
         target.setPort(Integer.parseInt(port_field.getValue()));
         target.setCommunity(snmp_community_field.getValue());
 
-        try (SnmpContext context = SnmpFactory.getInstance().newContext(target, mib)) {
+        try {
+            SnmpContext context = SnmpFactory.getInstance().newContext(target, mib);
             String result_string = get_OID_response(OID_field.getText(), null, context);
             result_text_area.appendText(result_string);
-        } catch (Exception e) {
+        } catch (org.soulwing.snmp.SnmpException e) {
             e.printStackTrace();
         }
     }
@@ -101,7 +102,10 @@ public class Controller extends Thread{
         SnmpResponse<VarbindCollection> response = context.get(OID);
         VarbindCollection result = response.get();
         if(OID_description == null){
-            return result.get(0).toString() + "\n";
+            if(result.get(0).toString() != null || result.get(0).toString().equals(""))
+                return result.get(0).toString() + "\n";
+            else
+                return "Error: No Such Instance";
         }else{
             return OID_description + result.get(0).toString() + "\n";
         }
