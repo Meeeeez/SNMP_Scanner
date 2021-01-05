@@ -6,7 +6,7 @@ import org.soulwing.snmp.*;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-public class Controller extends Thread{
+public class Controller extends Thread {
 
     public ChoiceBox<String> port_field;
     public ChoiceBox<String> snmp_community_field;
@@ -52,6 +52,7 @@ public class Controller extends Thread{
         snmp_community_field.getItems().addAll("public", "private");
 
         OID_field.setOnKeyTyped(keyEvent -> scan_button.setDisable(false));
+        event_log_text_area.appendText(">Initialized Scanner\n");
     }
 
     public void scanIP(ActionEvent actionEvent){
@@ -101,11 +102,13 @@ public class Controller extends Thread{
     private String get_OID_response(String OID, String OID_description, SnmpContext context){
         SnmpResponse<VarbindCollection> response = context.get(OID);
         VarbindCollection result = response.get();
+        event_log_text_area.appendText(">Requesting SNMP-Data\n");
         if(OID_description == null){
             if(result.get(0).toString() != null || result.get(0).toString().equals(""))
                 return result.get(0).toString() + "\n";
             else
-                return "Error: No Such Instance";
+                event_log_text_area.appendText(">No such instance found\n");
+            return "Error: No Such Instance";
         }else{
             return OID_description + result.get(0).toString() + "\n";
         }
@@ -126,16 +129,19 @@ public class Controller extends Thread{
     }
 
     private Mib load_MIB(){
+        event_log_text_area.appendText(">Loading MIB...\n");
         Mib mib = MibFactory.getInstance().newMib();
         try {
             mib.load("SNMPv2-MIB");
         } catch (IOException e) {
             e.printStackTrace();
         }
+        event_log_text_area.appendText(">MIB loaded successfully\n");
         return mib;
     }
 
     public void scan_whole_network(ActionEvent actionEvent) {
+        event_log_text_area.appendText(">Scanning whole Network...\n");
         mask = Integer.parseInt(mask_textfield_whole.getText());
 
         mib = load_MIB();
