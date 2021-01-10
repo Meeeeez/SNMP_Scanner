@@ -1,3 +1,4 @@
 .idea
 target
 SNMP_Scanner_GUI.iml
+src/main/resources/META-INF
