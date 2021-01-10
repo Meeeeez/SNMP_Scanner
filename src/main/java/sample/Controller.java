@@ -29,18 +29,6 @@ public class Controller extends Thread {
     private String[] IP_address_arr;
     private int mask;
 
-
-    /*TODO: benutzer kann nicht in textareas schreiben,
-            read by mib
-            scan whole network
-
-            OIDS:
-                Uptime: .1.3.6.1.2.1.25.1.1.0
-                Name: .1.3.6.1.2.1.1.5.0
-                Processes: 1.3.6.1.2.1.25.1.6.0
-                location: .1.3.6.1.2.1.1.6.0
-                Hardware Info: .1.3.6.1.2.1.1.1.0
-    */
     public void initialize() {
         scan_button.setDisable(true);
         network_textfield_whole.setPromptText("Enter Network address");
@@ -146,13 +134,12 @@ public class Controller extends Thread {
         mib = load_MIB();
 
         if(mask == 32){
-            System.out.println(community_field_whole.getValue());
             SimpleSnmpV2cTarget target = new SimpleSnmpV2cTarget();
             setElements(target, null, true);
 
             try (SnmpContext context = SnmpFactory.getInstance().newContext(target, mib)) {
-                String result_String = get_OID_response(".1.3.6.1.2.1.1.5.0", "Name: ",  context);   //name
-                result_text_area_whole.appendText(result_String);
+                String result_String = get_OID_response(".1.3.6.1.2.1.1.5.0", "",  context);   //name
+                result_text_area_whole.appendText(target.getAddress() + ": " + result_String);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -170,22 +157,22 @@ public class Controller extends Thread {
     @Override
     public void run() {
         if(mask == 24){
-            for (int i = 0; i < 254; i++){
+            for (int i = 1; i < 255; i++){
                 String IP_new = IP_address_arr[0] + "." + IP_address_arr[1] + "." + IP_address_arr[2] + "." + i;
                 System.out.println(IP_new);
                 getSNMPResponseWN(IP_new);
             }
         }else if(mask == 16){
-            for (int j = 0; j < 254; j++){
-                for (int i = 0; i < 254; i++){
+            for (int j = 1; j < 255; j++){
+                for (int i = 1; i < 255; i++){
                     String IP_new = IP_address_arr[0] + "." + IP_address_arr[1] + "." + j + "." + i;
                     getSNMPResponseWN(IP_new);
                 }
             }
         }else if(mask == 8){
-            for (int h = 0; h < 254; h++){
-                for (int j = 0; j < 254; j++){
-                    for (int i = 0; i < 254; i++){
+            for (int h = 1; h < 255; h++){
+                for (int j = 1; j < 255; j++){
+                    for (int i = 1; i < 255; i++){
                         String IP_new = IP_address_arr[0] + "." + h + "." + j + "." + i;
                         getSNMPResponseWN(IP_new);
                     }
@@ -244,17 +231,13 @@ public class Controller extends Thread {
     }
 
     private void setElements(SimpleSnmpV2cTarget target, String newIP, Boolean isWholeNetwork){
-        if(newIP == null){
+        if(!isWholeNetwork){
             if (ip_address_field.getText().equals("")){
                 alertErr("ip");
             }else {
                 target.setAddress(ip_address_field.getText());
             }
-        }else {
-            target.setAddress(newIP);
-        }
 
-        if(!isWholeNetwork){
             if(port_field.getValue() == null){
                 alertErr("port");
             }else {
@@ -277,6 +260,16 @@ public class Controller extends Thread {
                 alertErr("community");
             }else {
                 target.setCommunity(community_field_whole.getValue());
+            }
+
+            if(network_textfield_whole.getText().equals("")){
+                alertErr("ip");
+            }else{
+                if(newIP == null){
+                    target.setAddress(network_textfield_whole.getText());
+                }else {
+                    target.setAddress(newIP);
+                }
             }
         }
 
