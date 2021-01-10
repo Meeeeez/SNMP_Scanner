@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<TabPane tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.1-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<TabPane tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
     <Tab text="Basic Scanner">
         <Pane prefHeight="400.0" prefWidth="525.0">
             <Button layoutX="294.0" layoutY="14.0" mnemonicParsing="false" onAction="#show_port_info" prefHeight="9.0" prefWidth="10.0" text="i" />
@@ -31,53 +31,36 @@
                 <TextArea fx:id="result_text_area" editable="false" layoutX="9.0" layoutY="120.0" prefHeight="118.0" prefWidth="481.0" />
                 <TextArea fx:id="event_log_text_area" editable="false" layoutX="9.0" layoutY="15.0" prefHeight="56.0" prefWidth="481.0" />
             </Group>
-            <ButtonBar layoutX="80.0" layoutY="72.0" prefHeight="40.0" prefWidth="292.0">
+            <ButtonBar layoutX="26.0" layoutY="75.0" prefHeight="40.0" prefWidth="447.0">
                 <buttons>
                     <Button fx:id="scan_button" mnemonicParsing="false" onAction="#scanIP" prefWidth="113.0" text="Scan using OID" />
                     <Button mnemonicParsing="false" onAction="#print_six_OID" text="Print 6 OIDs" />
+               <Button fx:id="trapsBtn" mnemonicParsing="false" onAction="#receiveTrapsInforms" prefHeight="25.0" text="Receive Traps/Informs" />
                 </buttons>
             </ButtonBar>
         </Pane>
     </Tab>
     <Tab text="Scan whole Network">
         <Pane prefHeight="200.0" prefWidth="200.0">
-            <Text layoutX="13.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Network"/>
-            <TextField fx:id="network_textfield_whole" layoutX="77.0" layoutY="14.0"/>
-            <Text layoutX="13.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mask"/>
-            <TextField fx:id="mask_textfield_whole" layoutX="77.0" layoutY="47.0"/>
-            <Text layoutX="263.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port"/>
-            <Button layoutX="294.0" layoutY="14.0" mnemonicParsing="false" onAction="#show_port_info" text="i"/>
-            <ChoiceBox fx:id="port_field_whole" layoutX="361.0" layoutY="14.0" prefWidth="150.0"/>
-            <Text layoutX="263.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set Community"/>
-            <ChoiceBox fx:id="community_field_whole" layoutX="361.0" layoutY="47.0" prefWidth="150.0"/>
+            <Text layoutX="13.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Network" />
+            <TextField fx:id="network_textfield_whole" layoutX="77.0" layoutY="14.0" />
+            <Text layoutX="13.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mask" />
+            <TextField fx:id="mask_textfield_whole" layoutX="77.0" layoutY="47.0" />
+            <Text layoutX="263.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port" />
+            <Button layoutX="294.0" layoutY="14.0" mnemonicParsing="false" onAction="#show_port_info" text="i" />
+            <ChoiceBox fx:id="port_field_whole" layoutX="361.0" layoutY="14.0" prefWidth="150.0" />
+            <Text layoutX="263.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set Community" />
+            <ChoiceBox fx:id="community_field_whole" layoutX="361.0" layoutY="47.0" prefWidth="150.0" />
             <ButtonBar layoutX="103.0" layoutY="72.0" prefHeight="40.0" prefWidth="200.0">
                 <buttons>
-                    <Button mnemonicParsing="false" onAction="#scan_whole_network" text="Scan Network"/>
+                    <Button mnemonicParsing="false" onAction="#scan_whole_network" text="Scan Network" />
                 </buttons>
             </ButtonBar>
-            <Separator layoutX="-5.0" layoutY="116.0" prefHeight="9.0" prefWidth="530.0"/>
+            <Separator layoutX="-5.0" layoutY="116.0" prefHeight="9.0" prefWidth="530.0" />
             <Group layoutX="18.0" layoutY="138.0">
-                <Text layoutY="6.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SNMP-Responses"/>
-                <TextArea fx:id="result_text_area_whole" editable="false" layoutX="5.0" layoutY="22.0"
-                          prefHeight="225.0" prefWidth="481.0"/>
+                <Text layoutY="6.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SNMP-Responses" />
+                <TextArea fx:id="result_text_area_whole" editable="false" layoutX="5.0" layoutY="22.0" prefHeight="225.0" prefWidth="481.0" />
             </Group>
         </Pane>
     </Tab>
-    <!-- <Tab text="Scan 6 OIDs from IP">
-        <Pane>
-            <Text layoutX="13.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Host" />
-            <TextField fx:id="ip_address_field_2" layoutX="77.0" layoutY="14.0" />
-            <Group layoutX="14.0" layoutY="143.0">
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Event Log" />
-                <Text layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SNMP-Infos" />
-                <TextArea fx:id="result_text_area_2" layoutX="9.0" layoutY="153.0" prefHeight="81.0" prefWidth="481.0" />
-                <TextArea fx:id="event_log_text_area_2" layoutX="9.0" layoutY="24.0" prefHeight="81.0" prefWidth="481.0" />
-            </Group>
-         <Text layoutX="263.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port" />
-         <Button layoutX="294.0" layoutY="14.0" mnemonicParsing="false" onAction="#show_port_info" prefHeight="9.0" prefWidth="10.0" text="i" />
-         <ChoiceBox layoutX="361.0" layoutY="14.0" prefWidth="150.0" />
-        </Pane>
-    </Tab>
-    <Tab text="Scan IP by MIB" />
-    -->
 </TabPane>

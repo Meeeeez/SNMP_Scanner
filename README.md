@@ -17,16 +17,19 @@ Add the following libraries:
 
 Add the following dependencies to your pom.xml:
 ```xml
-  <dependency>
-    <groupId>org.soulwing.snmp</groupId>   <!-------SNMP Library----->
-    <artifactId>tnm4j</artifactId>
-    <version>1.0.11</version>
-  </dependency>
-  <dependency>
-    <groupId>org.openjfx</groupId>         <!-------JavaFX Library----->
-    <artifactId>javafx-fxml</artifactId>
-    <version>11.0.1</version>
-  </dependency>
+<dependencies>
+    <dependency>
+        <groupId>org.soulwing.snmp</groupId>   
+        <artifactId>tnm4j</artifactId>
+        <version>1.0.11</version>
+    </dependency>
+    <dependency>
+        <groupId>org.openjfx</groupId>        
+        <artifactId>javafx-fxml</artifactId>
+        <version>11.0.1</version>
+    </dependency>
+</dependencies>
+  
 ```
 Enter `mvn compile` to check that everything works correctly. 
 
@@ -45,6 +48,6 @@ Enter `mvn compile` to check that everything works correctly.
   - Enter an IP-adress an press "Print 6 OIDs" (OID is not necessary)
 - Scan the whole network (unfinished -> 32 mask working, 24 mask working partly)
   - Enter an IP-adress and a subnetmask without the "/" (no VLSM, only enter 8, 16, 24, 32) and press "Scan Network"
-Your desired information will be printed in the field "SNMP-Responses". Event log is currently unavailable.
+Your desired information will be printed in the field "SNMP-Responses".
   #### Don't forget to enter Port and Community (if you need help with the port press "i") ####
   
