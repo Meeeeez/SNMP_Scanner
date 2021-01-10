@@ -34,7 +34,7 @@
             <ButtonBar layoutX="26.0" layoutY="75.0" prefHeight="40.0" prefWidth="447.0">
                 <buttons>
                     <Button fx:id="scan_button" mnemonicParsing="false" onAction="#scanIP" prefWidth="113.0" text="Scan using OID" />
-                    <Button mnemonicParsing="false" onAction="#print_six_OID" text="Print 6 OIDs" />
+                    <Button fx:id="six_oid_btn" mnemonicParsing="false" onAction="#print_six_OID" text="Print 6 OIDs" />
                <Button fx:id="trapsBtn" mnemonicParsing="false" onAction="#receiveTrapsInforms" prefHeight="25.0" text="Receive Traps/Informs" />
                 </buttons>
             </ButtonBar>

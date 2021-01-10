@@ -24,6 +24,7 @@ public class Controller extends Thread {
     public ChoiceBox<String> community_field_whole;
     public TextArea result_text_area_whole;
     public Button trapsBtn;
+    public Button six_oid_btn;
 
     private Mib mib;
     private String[] IP_address_arr;
@@ -31,6 +32,8 @@ public class Controller extends Thread {
 
     public void initialize() {
         scan_button.setDisable(true);
+        six_oid_btn.setDisable(true);
+
         network_textfield_whole.setPromptText("Enter Network address");
         mask_textfield_whole.setPromptText("Enter subnet mask");
         port_field_whole.getItems().addAll("161", "162");
@@ -42,6 +45,7 @@ public class Controller extends Thread {
         snmp_community_field.getItems().addAll("public", "private");
 
         OID_field.setOnKeyTyped(keyEvent -> scan_button.setDisable(false));
+        ip_address_field.setOnKeyTyped(keyEvent -> six_oid_btn.setDisable(false));
         event_log_text_area.appendText(">Initialized Scanner\n");
     }
 
@@ -54,7 +58,7 @@ public class Controller extends Thread {
 
         try {
             SnmpContext context = SnmpFactory.getInstance().newContext(target, mib);
-            String result_string = get_OID_response(OID_field.getText(), null, context);
+            String result_string = get_OID_response(OID_field.getText(), "Response: ", context);
             result_text_area.appendText(result_string);
         } catch (org.soulwing.snmp.SnmpException e) {
             e.printStackTrace();
@@ -87,7 +91,7 @@ public class Controller extends Thread {
     }
 
     private String get_OID_response(String OID, String OID_description, SnmpContext context){
-        SnmpResponse<VarbindCollection> response = context.get(OID);
+        SnmpResponse<VarbindCollection> response = context.getNext(OID);
         VarbindCollection result = response.get();
         event_log_text_area.appendText(">Requesting SNMP-Data\n");
         if(OID_description == null){
