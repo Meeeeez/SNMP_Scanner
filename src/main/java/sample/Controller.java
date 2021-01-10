@@ -156,12 +156,14 @@ public class Controller extends Thread {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else if(mask == 24){
+        }else if(mask == 24 || mask == 16 || mask == 8){
             IP_address_arr = network_textfield_whole.getText().split("\\.");
             System.out.println(network_textfield_whole.getText());
             System.out.println(IP_address_arr.length);
 
             this.start();
+        }else {
+            alertErr("mask");
         }
     }
 
@@ -178,6 +180,15 @@ public class Controller extends Thread {
                 for (int i = 0; i < 254; i++){
                     String IP_new = IP_address_arr[0] + "." + IP_address_arr[1] + "." + j + "." + i;
                     getSNMPResponseWN(IP_new);
+                }
+            }
+        }else if(mask == 8){
+            for (int h = 0; h < 254; h++){
+                for (int j = 0; j < 254; j++){
+                    for (int i = 0; i < 254; i++){
+                        String IP_new = IP_address_arr[0] + "." + h + "." + j + "." + i;
+                        getSNMPResponseWN(IP_new);
+                    }
                 }
             }
         }
@@ -287,6 +298,10 @@ public class Controller extends Thread {
             case "ip":
                 alert.setHeaderText("Enter an IP address before starting an SNMP request");
                 event_log_text_area.appendText(">No IP specified\n");
+                break;
+            case "mask":
+                alert.setHeaderText("Invalid subnetmask");
+                event_log_text_area.appendText(">Invalid subnetmask\n");
                 break;
         }
 
