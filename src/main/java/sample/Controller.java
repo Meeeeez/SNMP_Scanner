@@ -34,6 +34,9 @@ public class Controller extends Thread {
         scan_button.setDisable(true);
         six_oid_btn.setDisable(true);
 
+        //port_field.setValue("161");
+        //snmp_community_field.setValue("public");
+
         network_textfield_whole.setPromptText("Enter Network address");
         mask_textfield_whole.setPromptText("Enter subnet mask");
         port_field_whole.getItems().addAll("161", "162");
@@ -58,7 +61,7 @@ public class Controller extends Thread {
 
         try {
             SnmpContext context = SnmpFactory.getInstance().newContext(target, mib);
-            String result_string = get_OID_response(OID_field.getText(), "Response: ", context);
+            String result_string = get_OID_response(OID_field.getText(), "Response: ", context, false);
             result_text_area.appendText(result_string);
         } catch (org.soulwing.snmp.SnmpException e) {
             e.printStackTrace();
@@ -73,15 +76,15 @@ public class Controller extends Thread {
 
         try (SnmpContext context = SnmpFactory.getInstance().newContext(target, mib)) {
             String result_string;
-            result_string = get_OID_response(".1.3.6.1.2.1.1.5.0", "Name: ",  context);   //name
+            result_string = get_OID_response(".1.3.6.1.2.1.1.5.0", "Name: ",  context, true);   //name
             result_text_area.appendText(result_string);
-            result_string = get_OID_response(".1.3.6.1.2.1.1.6.0", "Location: ", context);    //location
+            result_string = get_OID_response(".1.3.6.1.2.1.1.6.0", "Location: ", context, true);    //location
             result_text_area.appendText(result_string);
-            result_string = get_OID_response(".1.3.6.1.2.1.25.1.1.0", "Uptime: ", context); //uptime
+            result_string = get_OID_response(".1.3.6.1.2.1.25.1.1.0", "Uptime: ", context, true); //uptime
             result_text_area.appendText(result_string);
-            result_string = get_OID_response("1.3.6.1.2.1.25.1.6.0", "Running Processes: ", context); //Processes
+            result_string = get_OID_response("1.3.6.1.2.1.25.1.6.0", "Running Processes: ", context, true); //Processes
             result_text_area.appendText(result_string);
-            result_string = get_OID_response(".1.3.6.1.2.1.1.1.0", "Hardware and Software: ", context);    //hardware
+            result_string = get_OID_response(".1.3.6.1.2.1.1.1.0", "Hardware and Software: ", context, true);    //hardware
             result_text_area.appendText(result_string);
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,8 +93,17 @@ public class Controller extends Thread {
         }
     }
 
-    private String get_OID_response(String OID, String OID_description, SnmpContext context){
-        SnmpResponse<VarbindCollection> response = context.getNext(OID);
+    private String get_OID_response(String OID, String OID_description, SnmpContext context, Boolean isCalledFromGetSix){
+        SnmpResponse<VarbindCollection> response;
+        boolean isOid = false;
+
+        if (OID.contains(".")) isOid = true;
+
+        if(isCalledFromGetSix || isOid){
+            response = context.get(OID);
+        }else {
+            response = context.getNext(OID);
+        }
         VarbindCollection result = response.get();
         event_log_text_area.appendText(">Requesting SNMP-Data\n");
         if(OID_description == null){
@@ -110,7 +122,7 @@ public class Controller extends Thread {
         alert.setTitle("SNMP Manager: Port Help");
 
         alert.setHeaderText("When do I use what?");
-        alert.setContentText("161 is used when SNMP Managers communicate with SNMP Agents.\n162 is used when agents send unsolicited Traps to the SNMP Manager.");
+        alert.setContentText("161 is used when SNMP Managers communicate with SNMP Agents.\n162 is used when agents send Traps/Informs to the SNMP Manager.");
 
         alert.setResizable(true);
         alert.getDialogPane().setPrefHeight(200);
@@ -142,8 +154,8 @@ public class Controller extends Thread {
             setElements(target, null, true);
 
             try (SnmpContext context = SnmpFactory.getInstance().newContext(target, mib)) {
-                String result_String = get_OID_response(".1.3.6.1.2.1.1.5.0", "",  context);   //name
-                result_text_area_whole.appendText(target.getAddress() + ": " + result_String);
+                String result_String = get_OID_response(".1.3.6.1.2.1.1.5.0", "",  context, false);   //name
+                result_text_area_whole.appendText(target.getAddress() + " Name: " + result_String);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -18,7 +18,7 @@
             <Button layoutX="294.0" layoutY="14.0" mnemonicParsing="false" onAction="#show_port_info" prefHeight="9.0" prefWidth="10.0" text="i" />
             <ChoiceBox fx:id="port_field" layoutX="361.0" layoutY="14.0" prefWidth="150.0" />
             <Text layoutX="263.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port" />
-            <Text layoutX="263.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set Community" />
+            <Text layoutX="263.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Community" />
             <ChoiceBox fx:id="snmp_community_field" layoutX="361.0" layoutY="47.0" prefWidth="150.0" />
             <Text layoutX="13.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Host" />
             <TextField fx:id="ip_address_field" layoutX="77.0" layoutY="14.0" />
@@ -33,7 +33,7 @@
             </Group>
             <ButtonBar layoutX="26.0" layoutY="75.0" prefHeight="40.0" prefWidth="447.0">
                 <buttons>
-                    <Button fx:id="scan_button" mnemonicParsing="false" onAction="#scanIP" prefWidth="113.0" text="Scan using OID" />
+                    <Button fx:id="scan_button" mnemonicParsing="false" onAction="#scanIP" prefWidth="113.0" text="Scan using OID/MIB" />
                     <Button fx:id="six_oid_btn" mnemonicParsing="false" onAction="#print_six_OID" text="Print 6 OIDs" />
                <Button fx:id="trapsBtn" mnemonicParsing="false" onAction="#receiveTrapsInforms" prefHeight="25.0" text="Receive Traps/Informs" />
                 </buttons>
@@ -49,7 +49,7 @@
             <Text layoutX="263.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port" />
             <Button layoutX="294.0" layoutY="14.0" mnemonicParsing="false" onAction="#show_port_info" text="i" />
             <ChoiceBox fx:id="port_field_whole" layoutX="361.0" layoutY="14.0" prefWidth="150.0" />
-            <Text layoutX="263.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set Community" />
+            <Text layoutX="263.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Community" />
             <ChoiceBox fx:id="community_field_whole" layoutX="361.0" layoutY="47.0" prefWidth="150.0" />
             <ButtonBar layoutX="103.0" layoutY="72.0" prefHeight="40.0" prefWidth="200.0">
                 <buttons>
