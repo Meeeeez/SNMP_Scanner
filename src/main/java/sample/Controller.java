@@ -168,28 +168,39 @@ public class Controller extends Thread {
     @Override
     public void run() {
         if(mask == 24){
-            SimpleSnmpV2cTarget target = new SimpleSnmpV2cTarget();
-            SnmpResponse<VarbindCollection> response;
-            SnmpContext context;
-            VarbindCollection result;
-            String resPrinted;
-            for (int i = 210; i < 230; i++){
+            for (int i = 0; i < 254; i++){
                 String IP_new = IP_address_arr[0] + "." + IP_address_arr[1] + "." + IP_address_arr[2] + "." + i;
                 System.out.println(IP_new);
-
-                try{
-                    setElements(target, IP_new, true);
-                    context = SnmpFactory.getInstance().newContext(target, mib);
-                    response = context.get(".1.3.6.1.2.1.1.5.0");
-                    result = response.get();
-                    resPrinted = result.get(0).toString() + "\n";
-                    result_text_area_whole.appendText(IP_new + ": " + resPrinted);
-                    TimeUnit.MILLISECONDS.sleep(500);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    result_text_area_whole.appendText(IP_new + ": " + "not found\n");
+                getSNMPResponseWN(IP_new);
+            }
+        }else if(mask == 16){
+            for (int j = 0; j < 254; j++){
+                for (int i = 0; i < 254; i++){
+                    String IP_new = IP_address_arr[0] + "." + IP_address_arr[1] + "." + j + "." + i;
+                    getSNMPResponseWN(IP_new);
                 }
             }
+        }
+    }
+
+    private void getSNMPResponseWN(String IP_new){
+        SimpleSnmpV2cTarget target = new SimpleSnmpV2cTarget();
+        SnmpResponse<VarbindCollection> response;
+        SnmpContext context;
+        VarbindCollection result;
+        String resPrinted;
+
+        try{
+            setElements(target, IP_new, true);
+            context = SnmpFactory.getInstance().newContext(target, mib);
+            response = context.get(".1.3.6.1.2.1.1.5.0");
+            result = response.get();
+            resPrinted = result.get(0).toString() + "\n";
+            result_text_area_whole.appendText(IP_new + ": " + resPrinted);
+            TimeUnit.MILLISECONDS.sleep(500);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result_text_area_whole.appendText(IP_new + ": " + "not found\n");
         }
     }
 
