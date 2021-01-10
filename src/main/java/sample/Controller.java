@@ -63,8 +63,15 @@ public class Controller extends Thread {
             SnmpContext context = SnmpFactory.getInstance().newContext(target, mib);
             String result_string = get_OID_response(OID_field.getText(), "Response: ", context, false);
             result_text_area.appendText(result_string);
-        } catch (org.soulwing.snmp.SnmpException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            if (e instanceof org.soulwing.snmp.SnmpException) {
+                System.out.println("Error: SNMP Target not found");
+                event_log_text_area.appendText("Error: SNMP Target not found\n");
+            }else {
+                System.out.println("Error: Enter required information (IP, OID/MIB, Port)");
+                event_log_text_area.appendText("Error: Enter required information (IP, OID/MIB, Port)\n");
+
+            }
         }
     }
 
@@ -87,7 +94,8 @@ public class Controller extends Thread {
             result_string = get_OID_response(".1.3.6.1.2.1.1.1.0", "Hardware and Software: ", context, true);    //hardware
             result_text_area.appendText(result_string);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error: No such Instance found");
+            event_log_text_area.appendText("Error: No such Instance found\n");
         }finally {
             OID_field.setText(null);
         }
@@ -104,11 +112,14 @@ public class Controller extends Thread {
         }else {
             response = context.getNext(OID);
         }
+
         VarbindCollection result = response.get();
         event_log_text_area.appendText(">Requesting SNMP-Data\n");
         if(OID_description == null){
-            if(result.get(0).toString() != null || result.get(0).toString().equals(""))
+            if(result.get(0).toString() != null || result.get(0).toString().equals("")){
+                event_log_text_area.appendText(">SNMP Response inbound\n");
                 return result.get(0).toString() + "\n";
+            }
             else
                 event_log_text_area.appendText(">Error: No such instance found\n");
             return "Error: No Such Instance";
@@ -157,13 +168,11 @@ public class Controller extends Thread {
                 String result_String = get_OID_response(".1.3.6.1.2.1.1.5.0", "",  context, false);   //name
                 result_text_area_whole.appendText(target.getAddress() + " Name: " + result_String);
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("Error: No such instance found");
+                event_log_text_area.appendText(">Error: No such instance found\n");
             }
         }else if(mask == 24 || mask == 16 || mask == 8){
             IP_address_arr = network_textfield_whole.getText().split("\\.");
-            System.out.println(network_textfield_whole.getText());
-            System.out.println(IP_address_arr.length);
-
             this.start();
         }else {
             alertErr("mask");
@@ -213,7 +222,7 @@ public class Controller extends Thread {
             result_text_area_whole.appendText(IP_new + ": " + resPrinted);
             TimeUnit.MILLISECONDS.sleep(500);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error: No such instance found");
             result_text_area_whole.appendText(IP_new + ": " + "not found\n");
         }
     }
