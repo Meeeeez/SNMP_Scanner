@@ -173,7 +173,12 @@ public class Controller extends Thread {
             }
         }else if(mask == 24 || mask == 16 || mask == 8){
             IP_address_arr = network_textfield_whole.getText().split("\\.");
-            this.start();
+            try {
+                this.start();
+            } catch (Exception e) {
+                System.out.println("Error: Wait until the first scan has finished");
+                event_log_text_area.appendText(">Error: Wait until the first scan has finished\n");
+            }
         }else {
             alertErr("mask");
         }
