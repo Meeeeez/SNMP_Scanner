@@ -37,8 +37,8 @@ public class Controller extends Thread {
         //port_field.setValue("161");
         //snmp_community_field.setValue("public");
 
-        network_textfield_whole.setPromptText("Enter Network address");
-        mask_textfield_whole.setPromptText("Enter subnet mask");
+        network_textfield_whole.setPromptText("Network address");
+        mask_textfield_whole.setPromptText("8, 16, 24 or 32");
         port_field_whole.getItems().addAll("161", "162");
         community_field_whole.getItems().addAll("public", "private");
 
@@ -61,11 +61,11 @@ public class Controller extends Thread {
 
         try {
             SnmpContext context = SnmpFactory.getInstance().newContext(target, mib);
-            String result_string = get_OID_response(OID_field.getText(), "Response: ", context, false);
+            String result_string = get_OID_response(OID_field.getText(), "OID/MIB Response: ", context, false);
             result_text_area.appendText(result_string);
         } catch (Exception e) {
             if (e instanceof org.soulwing.snmp.SnmpException) {
-                System.out.println("Error: SNMP Target not found");
+                System.out.println("Error: No such Instance");
                 event_log_text_area.appendText("Error: SNMP Target not found\n");
             }else {
                 System.out.println("Error: Enter required information (IP, OID/MIB, Port)");
