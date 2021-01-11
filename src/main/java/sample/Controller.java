@@ -166,7 +166,7 @@ public class Controller extends Thread {
 
             try (SnmpContext context = SnmpFactory.getInstance().newContext(target, mib)) {
                 String result_String = get_OID_response(".1.3.6.1.2.1.1.5.0", "",  context, false);   //name
-                result_text_area_whole.appendText(target.getAddress() + " Name: " + result_String);
+                result_text_area_whole.appendText(target.getAddress() + result_String);
             } catch (Exception e) {
                 System.out.println("Error: No such instance found");
                 event_log_text_area.appendText(">Error: No such instance found\n");
