@@ -39,7 +39,10 @@ Enter `mvn compile` to check whether everything works correctly.
 ### Project Structure
 
 Make sure your Projekt structure looks like this:
+
 <a href="https://drive.google.com/uc?export=view&id=1G159T_vL5_KIz5gMGvMAarxLmgLNDazY"><img src="https://drive.google.com/uc?export=view&id=1G159T_vL5_KIz5gMGvMAarxLmgLNDazY" style="width: 650px; max-width: 100%; height: auto" title="Click to enlarge picture" />
+
+Its important that you put your `<sample.fxml>` file in the resources folder.
 
 ## Running the Program
 
