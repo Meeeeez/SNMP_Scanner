@@ -38,7 +38,7 @@ Enter `mvn compile` to check whether everything works correctly.
 
 ### Project Structure
 
-Make sure your Projekt structure looks like this (put `<sample.fxml>` in the resources folder):
+Make sure your project structure looks like this (put `<sample.fxml>` in the resources folder):
 
 <a href="https://drive.google.com/uc?export=view&id=1G159T_vL5_KIz5gMGvMAarxLmgLNDazY"><img src="https://drive.google.com/uc?export=view&id=1G159T_vL5_KIz5gMGvMAarxLmgLNDazY" style="width: 650px; max-width: 100%; height: auto" title="Click to enlarge picture" />
 
@@ -51,13 +51,14 @@ Make sure your Projekt structure looks like this (put `<sample.fxml>` in the res
 5. Run the Program!
           
 ## Usage
-- Scan a specific OID/MIB of an IP-adress
+- Scan a specific OID/MIB of an IP-address
   - Enter your OID/MIB, IP-address, port and community string in the dedicated text fields and press "Scan using OID/MIB"
 - Read SNMP information of an entered IP-address using six predefined OIDs
   - Enter an IP-adress, port and community string and press "Print 6 OIDs" (OID/MIB is not necessary)
 - Scan the whole network
-  - Enter an IP-adress, subnetmask without the "/"  (no VLSM, only enter 8, 16, 24, 32) , port and community string and press "Scan Network".
-  - It can take up to 30sec to scan an IP-address if there is nothing to be scanned. The name will be printed in the "SNMP-Responses" field if the IP-address has a running SNMP-agent.
-  - Once you start an scan for a subnet you need to either wait until it finishes or restart the program to start a new network scan. If you do a network scan and start a new one (except /32) before the first one finished, the program will continue with the first network scan.
+  - Switch to the "Scan Whole Network" Tab
+  - Enter an IP-adress, a subnetmask without the "/"  (no VLSM, only enter 8, 16, 24, 32) , a port and your community string and click "Scan Network".
+  - It can take up to 30 seconds to scan an IP-address if there is no SNMP-Agent running. Else the scan will take up to 2 seconds and the name of the system will be printed in the "SNMP-Responses" field.
+  - Once you start an scan for a subnet you need to either wait until it finishes or restart the program to start a new network scan. If begin a network scan and start a new one (except /32) before the first one finishes, the program will continue with the first network scan. The readon why /32 networks still work is because it doesn't require a thread to run the scan.
 - Receiving Traps/Informs
   - Click the button "Receive Traps/Informs" and wait for Traps/Informs.
