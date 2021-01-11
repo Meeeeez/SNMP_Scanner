@@ -48,6 +48,10 @@ Make sure your project structure looks like this (put `sample.fxml` in the resou
 2. Add Maven support
 3. Copy my `Main.java`, `Controller.java`, `pom.xml` and `sample.fxml` files
 4. Run the Program!
+
+### Requirements
+
+- Java 11
           
 ## Usage
 - Scan a specific OID/MIB of an IP-address
