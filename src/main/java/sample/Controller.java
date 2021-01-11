@@ -52,7 +52,7 @@ public class Controller extends Thread {
         event_log_text_area.appendText(">Initialized Scanner\n");
     }
 
-    public void scanIP(ActionEvent actionEvent){
+    public void scanIP(ActionEvent actionEvent){    //Exercise 1: this function scans an OID/MIB you entered of the ip address you entered
         mib = load_MIB();
 
         SimpleSnmpV2cTarget target = new SimpleSnmpV2cTarget();
@@ -75,7 +75,7 @@ public class Controller extends Thread {
         }
     }
 
-    public void print_six_OID(ActionEvent actionEvent) {
+    public void print_six_OID(ActionEvent actionEvent) {        //Exercise 2: this function scans 6 predefined OIDs of an IP you entered
         mib = load_MIB();
         SimpleSnmpV2cTarget target = new SimpleSnmpV2cTarget();
 
@@ -101,16 +101,16 @@ public class Controller extends Thread {
         }
     }
 
-    private String get_OID_response(String OID, String OID_description, SnmpContext context, Boolean isCalledFromGetSix){
+    private String get_OID_response(String OID, String OID_description, SnmpContext context, Boolean isCalledFromGetSix){ //this function returns the SNMP response formatted nicely
         SnmpResponse<VarbindCollection> response;
         boolean isOid = false;
 
-        if (OID.contains(".")) isOid = true;
+        if (OID.contains(".")) isOid = true;    //check whether an OID or a MIB was entered
 
-        if(isCalledFromGetSix || isOid){
+        if(isCalledFromGetSix || isOid){       //when an oid is entered use contex.get
             response = context.get(OID);
         }else {
-            response = context.getNext(OID);
+            response = context.getNext(OID);    //when a mib is entered use getnext
         }
 
         VarbindCollection result = response.get();
@@ -128,7 +128,7 @@ public class Controller extends Thread {
         }
     }
 
-    public void show_port_info(ActionEvent actionEvent) {
+    public void show_port_info(ActionEvent actionEvent) {       //this function helps the user and displays an alert when the "i" button is pressed
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("SNMP Manager: Port Help");
 
@@ -142,7 +142,7 @@ public class Controller extends Thread {
         alert.showAndWait();
     }
 
-    private Mib load_MIB(){
+    private Mib load_MIB(){     //this function loads the mib and returns it
         event_log_text_area.appendText(">Loading MIB...\n");
         Mib mib = MibFactory.getInstance().newMib();
         try {
@@ -154,7 +154,7 @@ public class Controller extends Thread {
         return mib;
     }
 
-    public void scan_whole_network(ActionEvent actionEvent) {
+    public void scan_whole_network(ActionEvent actionEvent) {   //This function starts a thread that checks every ip in a network
         event_log_text_area.appendText(">Scanning whole Network...\n");
         mask = Integer.parseInt(mask_textfield_whole.getText());
 
@@ -180,11 +180,10 @@ public class Controller extends Thread {
     }
 
     @Override
-    public void run() {
+    public void run() { //build a new ip address depending on the mask and get the sysName for it
         if(mask == 24){
             for (int i = 1; i < 255; i++){
-                String IP_new = IP_address_arr[0] + "." + IP_address_arr[1] + "." + IP_address_arr[2] + "." + i;
-                System.out.println(IP_new);
+                String IP_new = IP_address_arr[0] + "." + IP_address_arr[1] + "." + IP_address_arr[2] + "." + i;        //build new ip
                 getSNMPResponseWN(IP_new);
             }
         }else if(mask == 16){
@@ -206,7 +205,7 @@ public class Controller extends Thread {
         }
     }
 
-    private void getSNMPResponseWN(String IP_new){
+    private void getSNMPResponseWN(String IP_new){      //this function gets the snmp response for the whole network scan
         SimpleSnmpV2cTarget target = new SimpleSnmpV2cTarget();
         SnmpResponse<VarbindCollection> response;
         SnmpContext context;
@@ -220,26 +219,26 @@ public class Controller extends Thread {
             result = response.get();
             resPrinted = result.get(0).toString() + "\n";
             result_text_area_whole.appendText(IP_new + ": " + resPrinted);
-            TimeUnit.MILLISECONDS.sleep(500);
+            TimeUnit.MILLISECONDS.sleep(400L);
         } catch (Exception e) {
             System.out.println("Error: No such instance found");
             result_text_area_whole.appendText(IP_new + ": " + "not found\n");
         }
     }
 
-    public void receiveTrapsInforms(ActionEvent actionEvent) {
+    public void receiveTrapsInforms(ActionEvent actionEvent) {      //receiving traps
         Mib mib;
         mib = load_MIB();
         event_log_text_area.appendText(">Waiting for Traps/Informs...\n");
         new Thread(() -> {
-            SnmpListener listener = SnmpFactory.getInstance().newListener(10162, mib);
+            SnmpListener listener = SnmpFactory.getInstance().newListener(10162, mib);  //start trap/inform listener on port 10162
             try {
                 listener.addHandler(event -> {
-                    Platform.runLater(() -> {
+                    Platform.runLater(() -> {       //run later updates the gui
                         result_text_area.appendText("Received: \n");
 
                         for (int i = 0; i < event.getSubject().getVarbinds().size(); i++) {
-                            result_text_area.appendText(event.getSubject().getVarbinds().get(i).getName() + " : " + event.getSubject().getVarbinds().get(i));
+                            result_text_area.appendText(event.getSubject().getVarbinds().get(i).getName() + " : " + event.getSubject().getVarbinds().get(i) + "\n");
                         }
 
                         result_text_area.appendText("");
@@ -255,7 +254,7 @@ public class Controller extends Thread {
         }).start();
     }
 
-    private void setElements(SimpleSnmpV2cTarget target, String newIP, Boolean isWholeNetwork){
+    private void setElements(SimpleSnmpV2cTarget target, String newIP, Boolean isWholeNetwork){ //this function sets the ip, mask, port and community string, it displays an error when one of the fields is not entered  by the user
         if(!isWholeNetwork){
             if (ip_address_field.getText().equals("")){
                 alertErr("ip");
@@ -300,7 +299,7 @@ public class Controller extends Thread {
 
     }
 
-    private void alertErr(String type){
+    private void alertErr(String type){     //displays an error and prompts the user to enter the required information
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("SNMP Manager: Enter additional info");
 
