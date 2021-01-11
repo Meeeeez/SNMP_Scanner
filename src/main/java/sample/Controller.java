@@ -187,15 +187,15 @@ public class Controller extends Thread {
                 getSNMPResponseWN(IP_new);
             }
         }else if(mask == 16){
-            for (int j = 1; j < 255; j++){
+            for (int j = 0; j < 254; j++){
                 for (int i = 1; i < 255; i++){
                     String IP_new = IP_address_arr[0] + "." + IP_address_arr[1] + "." + j + "." + i;
                     getSNMPResponseWN(IP_new);
                 }
             }
         }else if(mask == 8){
-            for (int h = 1; h < 255; h++){
-                for (int j = 1; j < 255; j++){
+            for (int h = 0; h < 254; h++){
+                for (int j = 0; j < 254; j++){
                     for (int i = 1; i < 255; i++){
                         String IP_new = IP_address_arr[0] + "." + h + "." + j + "." + i;
                         getSNMPResponseWN(IP_new);
