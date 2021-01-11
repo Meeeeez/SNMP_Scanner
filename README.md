@@ -46,9 +46,8 @@ Make sure your project structure looks like this (put `<sample.fxml>` in the res
 
 1. Create an Intellij JavaFX project
 2. Add Maven support
-3. Copy my pom.xml file
-4. Copy my Main.java, Controller.java and sample.fxml files
-5. Run the Program!
+3. Copy my `<Main.java>`, `<Controller.java>`, `<pom.xml>` and `<sample.fxml>` files
+4. Run the Program!
           
 ## Usage
 - Scan a specific OID/MIB of an IP-address
