@@ -58,6 +58,6 @@ Make sure your project structure looks like this (put `sample.fxml` in the resou
   - Switch to the `Scan Whole Network` Tab
   - Enter an IP-adress, a subnetmask without the `/`  (no VLSM, only enter 8, 16, 24, 32) , a port and your community string and click `Scan Network`.
   - It can take up to 30 seconds to scan an IP-address if there is no SNMP-Agent running. Else the scan will take up to 2 seconds and the name of the system will be printed in the `SNMP-Responses` field.
-  - Once you start an scan for a subnet you need to either wait until it finishes or restart the program to start a new network scan. If begin a network scan and start a new one (except /32) before the first one finishes, the program will continue with the first network scan. The readon why /32 networks still work is because it doesn't require a thread to run the scan.
+  - Once you start a scan for a subnet you need to either wait until it finishes or restart the program to start a new network scan. If begin a network scan and start a new one (except /32) before the first one finishes, the program will continue with the first network scan. The readon why /32 networks still work is because it doesn't require a thread to run the scan.
 - Receiving Traps/Informs
   - Click the button `Receive Traps/Informs` and wait for Traps/Informs.
